@@ -5,6 +5,8 @@ using UnityEngine;
 public class TankMotor : MonoBehaviour
 {
     #region Variables
+    private float moveSpeed;
+    private float rotateSpeed;
     private CharacterController m_characterController;
 
     #endregion
@@ -35,5 +37,6 @@ public class TankMotor : MonoBehaviour
         Vector3 rotationVector = transform.up * rotateSpeed * Time.deltaTime;
         transform.Rotate(rotationVector);
     }
+
     #endregion
 }

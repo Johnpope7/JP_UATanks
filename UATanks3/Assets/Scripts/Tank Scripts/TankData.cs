@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class TankData : MonoBehaviour
 {
+    #region Variables
+    public float moveSpeed;
+    public float rotateSpeed;
+    #endregion
+
+    #region default methods
     // Start is called before the first frame update
     void Start()
     {
@@ -15,4 +21,8 @@ public class TankData : MonoBehaviour
     {
         
     }
+    #endregion
+
+    #region custom methods
+    #endregion
 }

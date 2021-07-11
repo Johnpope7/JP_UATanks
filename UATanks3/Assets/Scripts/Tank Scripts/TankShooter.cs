@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class TankShooter : MonoBehaviour
 {
+    #region Variables
+    #endregion
+
+    #region default methods
     // Start is called before the first frame update
     void Start()
     {
@@ -15,4 +19,12 @@ public class TankShooter : MonoBehaviour
     {
         
     }
+    #endregion
+
+    #region custom methods
+    public void Shoot() 
+    {
+        Debug.Log("Shots Fired");
+    }
+    #endregion
 }
