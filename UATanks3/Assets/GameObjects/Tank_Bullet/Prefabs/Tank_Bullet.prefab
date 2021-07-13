@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 82425348468776140}
   - component: {fileID: 54043227216706648}
   - component: {fileID: 136685805276806498}
-  - component: {fileID: 6051269653076419899}
   m_Layer: 0
   m_Name: Tank_Bullet
   m_TagString: Bullet
@@ -211,16 +210,3 @@ CapsuleCollider:
   m_Height: 129.5
   m_Direction: 2
   m_Center: {x: -0.0000019073485, y: -0.00003433227, z: 20.1}
---- !u!114 &6051269653076419899
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1144187341207838}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df51f13b5b6e63b43be8a35f15aa49f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  instigator: {fileID: 0}

@@ -502,6 +502,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fe28ab1a776f864aafdd44c8a7f4bd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_tankBulletPrefab: {fileID: 0}
 --- !u!114 &3982070390986156768
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -527,8 +528,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 593950ff74a7aec4f9b98861e0997a75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 20
-  rotateSpeed: 30
+  moveSpeed: 10
+  rotateSpeed: 40
 --- !u!1 &5592387151819456919
 GameObject:
   m_ObjectHideFlags: 0
