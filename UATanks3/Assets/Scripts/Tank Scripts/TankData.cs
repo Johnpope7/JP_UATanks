@@ -5,8 +5,9 @@ using UnityEngine;
 public class TankData : MonoBehaviour
 {
     #region Variables
-    public float moveSpeed;
-    public float rotateSpeed;
+    public float moveSpeed = 10f;
+    public float rotateSpeed = 40f;
+    public float secondsPerShot = 1f;
     #endregion
 
     #region default methods

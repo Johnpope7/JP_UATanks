@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
 
     #region default methods
     // Start is called before the first frame update
-   private void Start()
+    private void Start()
     {
         m_data = gameObject.GetComponent<TankData>(); //sets the proper Tank Data script for the player
        m_motor = gameObject.GetComponent<TankMotor>(); //sets the proper Tank Motor script for the player
