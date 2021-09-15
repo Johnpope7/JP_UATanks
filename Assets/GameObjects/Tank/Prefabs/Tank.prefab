@@ -431,14 +431,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1164494156946566833}
   - component: {fileID: 227108663}
-  - component: {fileID: 7826594458105072488}
-  - component: {fileID: 6620828734194964973}
-  - component: {fileID: 3982070390986156768}
-  - component: {fileID: 5979143325987513305}
   m_Layer: 3
   m_Name: Tank
   m_TagString: Player
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -478,58 +474,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 270, z: 0}
---- !u!114 &7826594458105072488
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4913655709672648093}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 883d391d37c2c3e4fa48433d3fced042, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6620828734194964973
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4913655709672648093}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8fe28ab1a776f864aafdd44c8a7f4bd4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_tankBulletPrefab: {fileID: 0}
---- !u!114 &3982070390986156768
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4913655709672648093}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00e720c4934a985439f0f53aa31277cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_playerInputScheme: 0
---- !u!114 &5979143325987513305
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4913655709672648093}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 593950ff74a7aec4f9b98861e0997a75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 10
-  rotateSpeed: 40
 --- !u!1 &5592387151819456919
 GameObject:
   m_ObjectHideFlags: 0
