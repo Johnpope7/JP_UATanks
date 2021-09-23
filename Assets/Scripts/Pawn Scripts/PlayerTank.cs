@@ -6,7 +6,7 @@ public class PlayerTank : Pawn
 {
     //move speed for the tank
     public float moveSpeed;
-    
+    public float rotateSpeed;
 
     // Start is called before the first frame update
     void Start()

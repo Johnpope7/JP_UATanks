@@ -430,7 +430,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1164494156946566833}
-  - component: {fileID: 227108663}
+  - component: {fileID: 2709995593734374164}
+  - component: {fileID: 8471888420288335997}
+  - component: {fileID: 288483089297264863}
+  - component: {fileID: 3074440537346092208}
+  - component: {fileID: 429358412835387463}
   m_Layer: 3
   m_Name: Tank
   m_TagString: Player
@@ -456,8 +460,8 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!143 &227108663
-CharacterController:
+--- !u!136 &2709995593734374164
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -466,14 +470,67 @@ CharacterController:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
+  m_Radius: 280
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 250, z: 0}
+--- !u!54 &8471888420288335997
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4913655709672648093}
   serializedVersion: 2
-  m_Height: 68
-  m_Radius: 256
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 270, z: 0}
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 80
+  m_CollisionDetection: 0
+--- !u!114 &288483089297264863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4913655709672648093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97bc04f127b536241b92ccccd1154e0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  turretTf: {fileID: 409401110439938547}
+--- !u!114 &3074440537346092208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4913655709672648093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d57b0c624a6c30641b12a6521a6347b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  motor: {fileID: 288483089297264863}
+  moveSpeed: 10
+  rotateSpeed: 30
+--- !u!114 &429358412835387463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4913655709672648093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e461b7a6dc1e6e043b0d34bae8f6a370, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pawn: {fileID: 3074440537346092208}
 --- !u!1 &5592387151819456919
 GameObject:
   m_ObjectHideFlags: 0
