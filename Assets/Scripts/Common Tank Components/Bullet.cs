@@ -18,7 +18,7 @@ public class Bullet : MonoBehaviour
     {
         if (_other.CompareTag("Player") || _other.CompareTag("Enemy"))
         {
-           
+            /*other.GetComponent<Health>().TakeDamage(damage, instigator);*/ // this will hopefully call a damage function on it.
         }
     }
 
@@ -31,7 +31,7 @@ public class Bullet : MonoBehaviour
     {
         get { return bulletDamage; }
     }
-    public float SetShellDamage(float dmg) //the setter of the damage
+    public float SetBulletDamage(float dmg) //the setter of the damage
     {
         bulletDamage = dmg;
         return bulletDamage;

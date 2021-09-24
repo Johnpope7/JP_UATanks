@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class InputController : Controller
 {
-    private Vector3 movement;
     
     // Start is called before the first frame update
     void Start()
@@ -38,6 +37,10 @@ public class InputController : Controller
         if (Input.GetKey(KeyCode.E))
         {
             pawn.motor.TurretRotateRight();
+        }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            ptank.Shoot(ptank.p_shotForce);
         }
     }
 }

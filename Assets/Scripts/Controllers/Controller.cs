@@ -5,6 +5,7 @@ using UnityEngine;
 public class Controller : MonoBehaviour
 {
     public Pawn pawn;
+    public PlayerTank ptank;
 
     // Start is called before the first frame update
     void Start()

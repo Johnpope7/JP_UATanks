@@ -518,6 +518,11 @@ MonoBehaviour:
   motor: {fileID: 288483089297264863}
   moveSpeed: 10
   rotateSpeed: 30
+  turretRotateSpeed: 75
+  tankDamage: 25
+  bullet: {fileID: 0}
+  firingZone: {fileID: 9044039701618893532}
+  bulletLifeSpan: 0.5
 --- !u!114 &429358412835387463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -531,6 +536,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pawn: {fileID: 3074440537346092208}
+  ptank: {fileID: 3074440537346092208}
 --- !u!1 &5592387151819456919
 GameObject:
   m_ObjectHideFlags: 0

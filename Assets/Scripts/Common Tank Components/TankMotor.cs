@@ -32,12 +32,12 @@ public class TankMotor : MonoBehaviour
 
     public void TurretRotateLeft()
     {
-        turretTf.transform.Rotate(0, -tdata.rotateSpeed * Time.deltaTime, 0);
+        turretTf.transform.Rotate(0, -tdata.turretRotateSpeed * Time.deltaTime, 0);
     }
 
     public void TurretRotateRight()
     {
-        turretTf.transform.Rotate(0, tdata.rotateSpeed * Time.deltaTime, 0);
+        turretTf.transform.Rotate(0, tdata.turretRotateSpeed * Time.deltaTime, 0);
     }
 
     // Start is called before the first frame update
