@@ -6,20 +6,29 @@ public class Bullet : MonoBehaviour
 {
     #region Variables
     public GameObject instigator; //stores the object that fires this bullet
-
+    private Rigidbody brb; //stores the bullets rigidbody
     private float bulletDamage; //the damage value of the bullet
 
 
 
     #endregion
 
+    private void Awake()
+    {
+        brb = GetComponent<Rigidbody>();
+    }
+
     #region BuiltIn Method
     private void OnTriggerEnter(Collider _other)
     {
-        if (_other.CompareTag("Player") || _other.CompareTag("Enemy"))
+        GameObject enemyObject = _other.gameObject;
+        Health enemyHealth = enemyObject.GetComponent<Health>();
+        if (enemyHealth != null) //if the enemy has health, make it take damage
         {
-            /*other.GetComponent<Health>().TakeDamage(damage, instigator);*/ // this will hopefully call a damage function on it.
+            enemyHealth.Damage(bulletDamage); //take damage
         }
+        brb.velocity = new Vector3(0f, 0f, 0f); //stops the projectile on impact
+        Destroy(this.gameObject); //destroys the object after impact.
     }
 
     #endregion
@@ -27,9 +36,9 @@ public class Bullet : MonoBehaviour
     #region CustomMethods
 
     #region GettersAndSetters
-    public float GetShellDamage //the getter for the damage
+    public float GetBulletDamage //the getter for the damage
     {
-        get { return bulletDamage; }
+        get {return bulletDamage; }
     }
     public float SetBulletDamage(float dmg) //the setter of the damage
     {

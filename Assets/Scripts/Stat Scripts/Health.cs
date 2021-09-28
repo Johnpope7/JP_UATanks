@@ -7,8 +7,8 @@ public class Health : MonoBehaviour
 {
     [Header("Game Objects")]
     [SerializeField, Tooltip("The ragdoll spawned when a pawn dies")]
-    private GameObject ragdoll;
-    private bool spawnRag = true;
+    private GameObject tankParts;
+    private bool spawnParts = true;
 
     [Header("Health Values")]
     [SerializeField]
@@ -18,7 +18,7 @@ public class Health : MonoBehaviour
     private float percent;
 
 
-
+    //the code comments itself lol
     public float GetHealth()
     {
         return currentHealth;
@@ -74,17 +74,16 @@ public class Health : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void SpawnRagdoll()
+    public void SpawnTankParts()
     {
         //if we can spawn a ragdoll
-        if (spawnRag == true)
+        if (spawnParts == true)
         {
             //then spawn one at our current position and rotation
-            Instantiate(ragdoll, transform.position, transform.rotation);
+            Instantiate(tankParts, transform.position, transform.rotation);
         }
         //set ragdoll spawning to false
-        spawnRag = false;
+        spawnParts = false;
     }
-
 
 }

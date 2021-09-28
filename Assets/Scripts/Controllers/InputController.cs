@@ -4,25 +4,25 @@ using UnityEngine;
 
 public class InputController : Controller
 {
-    
+    [SerializeField]
     // Start is called before the first frame update
     void Start()
     {
-        
+        pawn = GetComponent<Pawn>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.W)) 
+        if (Input.GetKey(KeyCode.W))
         {
             pawn.motor.MoveForward();
         }
-        if (Input.GetKey(KeyCode.S)) 
+        if (Input.GetKey(KeyCode.S))
         {
             pawn.motor.MoveBackward();
         }
-        if (Input.GetKey(KeyCode.A)) 
+        if (Input.GetKey(KeyCode.A))
         {
             pawn.motor.RotateLeft();
         }

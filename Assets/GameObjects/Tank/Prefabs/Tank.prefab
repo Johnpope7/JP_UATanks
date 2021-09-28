@@ -515,12 +515,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d57b0c624a6c30641b12a6521a6347b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: {fileID: 0}
   motor: {fileID: 288483089297264863}
   moveSpeed: 10
   rotateSpeed: 30
   turretRotateSpeed: 75
   tankDamage: 25
-  bullet: {fileID: 0}
+  bulletPrefab: {fileID: 1144187341207838, guid: d3cda471202d69248bce52982e462e0b, type: 3}
   firingZone: {fileID: 9044039701618893532}
   bulletLifeSpan: 0.5
 --- !u!114 &429358412835387463

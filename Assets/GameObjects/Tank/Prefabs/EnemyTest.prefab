@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6044783714165334943}
   - component: {fileID: 5188795941275501006}
   - component: {fileID: 219162389801184301}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: Wheels
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 9035341365395698521}
   - component: {fileID: 1307496153507968140}
   - component: {fileID: 2112649228988157135}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: Turret_Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -171,7 +171,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 409401110439938547}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: Turret_GRP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -204,7 +204,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3926331076336728937}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: R_Tracks_GRP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -238,7 +238,7 @@ GameObject:
   - component: {fileID: 2566209213623291295}
   - component: {fileID: 5972908891002434688}
   - component: {fileID: 6386956532234128542}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: Wheels 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -319,7 +319,7 @@ GameObject:
   - component: {fileID: 5273759607972276695}
   - component: {fileID: 7689886254403199570}
   - component: {fileID: 8387856255745923736}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: Tracks 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -398,7 +398,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 900544717671218597}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: L_Tracks_GRP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -431,8 +431,11 @@ GameObject:
   m_Component:
   - component: {fileID: 1164494156946566833}
   - component: {fileID: 2726159578665775627}
+  - component: {fileID: 95002822654224426}
   - component: {fileID: 1007407944}
-  m_Layer: 8
+  - component: {fileID: 8256400032000525668}
+  - component: {fileID: 4861028570175266728}
+  m_Layer: 6
   m_Name: EnemyTest
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -468,7 +471,20 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 503.90997, y: 390.27457, z: 568.66705}
+  m_Size: {x: 503, y: 390, z: 568}
+  m_Center: {x: 0, y: 226.4302, z: -37.40015}
+--- !u!65 &95002822654224426
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4913655709672648093}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 510, y: 400, z: 578}
   m_Center: {x: 0, y: 226.4302, z: -37.40015}
 --- !u!54 &1007407944
 Rigidbody:
@@ -484,8 +500,38 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!114 &8256400032000525668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4913655709672648093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9e7c2858581d1941b5182164c253659, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ragdoll: {fileID: 0}
+  MaxHealth: 100
+  currentHealth: 100
+--- !u!114 &4861028570175266728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4913655709672648093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c34056d4d067b454da4abf6534ca150a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: {fileID: 8256400032000525668}
+  motor: {fileID: 0}
+  points: 1
 --- !u!1 &5592387151819456919
 GameObject:
   m_ObjectHideFlags: 0
@@ -497,7 +543,7 @@ GameObject:
   - component: {fileID: 7612605867527059632}
   - component: {fileID: 2991042895084653044}
   - component: {fileID: 4024018112596694484}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: Tracks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -576,7 +622,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9044039701618893532}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: firingZone
   m_TagString: firingZone
   m_Icon: {fileID: 0}
@@ -608,7 +654,7 @@ GameObject:
   - component: {fileID: 4863606738362260151}
   - component: {fileID: 6920535280810104605}
   - component: {fileID: 7457555733476402135}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -689,7 +735,7 @@ GameObject:
   - component: {fileID: 6468983229713432570}
   - component: {fileID: 2626990920969331539}
   - component: {fileID: 7687172884074481986}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: Turret_Pivot_GEO
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -770,7 +816,7 @@ GameObject:
   - component: {fileID: 7574613892501966901}
   - component: {fileID: 2195414264234724349}
   - component: {fileID: 2338745169516238932}
-  m_Layer: 8
+  m_Layer: 6
   m_Name: Gun_GEO
   m_TagString: Untagged
   m_Icon: {fileID: 0}
