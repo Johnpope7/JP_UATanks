@@ -6,4 +6,5 @@ public class Controller : MonoBehaviour
 {
     public Pawn pawn;
     public PlayerTank ptank;
+    public TankMotor motor;
 }
