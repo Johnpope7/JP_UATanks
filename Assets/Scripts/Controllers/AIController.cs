@@ -10,7 +10,7 @@ public class AIController : Controller
     [Header("AI Controller Components")]
     public GameObject target; //stores the AI's target
     public Transform targetTf; //stores the transform of the AI's target
-    public EnemyTank pawn; //stores the pawn of the EnemyTank
+    public EnemyTank epawn; //stores the pawn of the EnemyTank
     protected Transform tf; //stores the transform of the AI pawn
     public LayerMask playerLayer; //allows me to access the player layer;
 
@@ -32,7 +32,7 @@ public class AIController : Controller
     void Awake()
     {
         tf = GetComponent<Transform>(); //sets the transform of the AI pawn
-        pawn = GetComponent<EnemyTank>(); //gets the pawn of the AI pawn
+        epawn = GetComponent<EnemyTank>(); //gets the pawn of the AI pawn
         motor = GetComponent<TankMotor>(); //gets the TankMotor and sets it to motor
     }
 
@@ -70,7 +70,7 @@ public class AIController : Controller
         //creates local variables for everything we need to hear
         float _playerNoise = _player.GetComponent<PlayerTank>().noise; //stores the noise level of the player
         float _playerNoiseRange = _player.GetComponent<PlayerTank>().noiseRange; //stores the hearing distance of the noise
-        float hDistance = pawn.hearingDistance; //makes a local variable for hearing distance
+        float hDistance = epawn.hearingDistance; //makes a local variable for hearing distance
         if (_playerNoise > 0)
         {
             // If our distance is greater or equal to the distance we can hear plus the distance the pawn's noise travels
@@ -90,12 +90,12 @@ public class AIController : Controller
         float angleToPlayer = Vector3.Angle(agentToPlayerVector, pawn.transform.right);//finds the angle from our enemies view by using the distance between the player and the enemies transform 
 
         
-        if (angleToPlayer < pawn.fieldOfView) //does this if our angle to our player is lest that our field of view
+        if (angleToPlayer < epawn.fieldOfView) //does this if our angle to our player is lest that our field of view
         {
-            if (Vector3.Distance(pawn.transform.position, player.transform.position) < pawn.viewRadius / 2)
+            if (Vector3.Distance(pawn.transform.position, player.transform.position) < epawn.viewRadius / 2)
             {
                 //checks to see if we hit thje player target
-                if (Physics.Raycast(pawn.transform.position, agentToPlayerVector, out RaycastHit hit, pawn.viewRadius, playerLayer))
+                if (Physics.Raycast(pawn.transform.position, agentToPlayerVector, out RaycastHit hit, epawn.viewRadius, playerLayer))
                 {
                     // If our raycast hits our player target
                     if (hit.collider.gameObject == player)
@@ -116,4 +116,3 @@ public class AIController : Controller
 
     #endregion
 }
-

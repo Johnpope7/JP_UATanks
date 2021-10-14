@@ -23,7 +23,9 @@ public class PlayerTank : Pawn
     private float shootCoolDown; //the cooldown time between shoots, dont change this in the inspector
     [SerializeField]
     private float shootCoolDownTime = 2f; //the time our cool down takes to refresh, adjust this to shoot faster or slower
-
+    public float noise = 0; //float for how much noise our pawn is making
+    public float noiseRange = 10; //float for how far the noise our pawn is making travels
+    public bool isMakingNoise = false; //bool for if pawn is making noise or not
 
     [Header("Tank Bullet Properties")]
     public GameObject bulletPrefab; //game object for the bullet instantiation 
