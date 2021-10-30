@@ -2,19 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(EnemyTank))]
-[RequireComponent(typeof(TankMotor))]
+
 public class AIController : Controller
 {
     #region Variables
     [Header("AI Controller Components")]
     public GameObject target; //stores the AI's target
     public Transform targetTf; //stores the transform of the AI's target
-    public EnemyTank epawn; //stores the pawn of the EnemyTank
+    public EnemyTank ePawn; //stores the pawn of the EnemyTank
+    public Health eHealth; //stores the Health script of the enemy
     protected Transform tf; //stores the transform of the AI pawn
     public LayerMask playerLayer; //allows me to access the player layer;
 
+    [Header("Enemy Type"), SerializeField]
+    protected EnemyType enemyType; //the type of enemy the AI controller is interfacing with (Melee or Ranged)
+    protected enum EnemyType { Inky, Pinky, Blinky, Clyde, Test } //an enumeration of enemy types
+    [SerializeField, Range(0, 10)]
+    protected float timer = 3f; //timer for the melee state change coroutine
+
     [Header("Navigation Variables")]
+    private Vector3 movement; //stores the movement of the enemy
     public int avoidanceStage = 0;
     public float avoidanceTime = 2.0f;
     private float exitTime = 0.5f; //variable that stores Move exit times
@@ -25,15 +32,16 @@ public class AIController : Controller
     public int currentWaypoint = 0; //stores ai's current value in waypoint index
     public float withinWaypointRange = 1.0f; //value for if our ai is close enough to its waypoint
     public float stopDistance; //to stop AI before they enter the players space
-
+    private float fireRadius = 4f; //gives the radius at which the enemy can turn and fire
+    private float currentAngle; // stores the current angle of the tank cannon
+    private float fireAngle; //stores the firing angle of the cannon
+    private float distanceToTarget; //stores the distance to the target
     #endregion
 
     #region Builtin functions
     void Awake()
     {
-        tf = GetComponent<Transform>(); //sets the transform of the AI pawn
-        epawn = GetComponent<EnemyTank>(); //gets the pawn of the AI pawn
-        motor = GetComponent<TankMotor>(); //gets the TankMotor and sets it to motor
+
     }
 
     void Start()
@@ -44,58 +52,156 @@ public class AIController : Controller
 
     void Update()
     {
-        
+
+        foreach (var enemy in GameManager.instance.enemyList)
+        {
+            tf = enemy.GetComponent<Transform>(); //sets the transform of the AI pawn
+            ePawn = enemy.GetComponent<EnemyTank>(); //gets the pawn of the AI pawn
+            motor = enemy.GetComponent<TankMotor>(); //gets the TankMotor and sets it to motor
+            eHealth = enemy.GetComponent<Health>(); //gets the health script of the enemy
+
+            if (enemyType == EnemyType.Blinky)
+            {
+                switch (ePawn.aiState) //Chase, Attack, Flee, Rest, Patrol, Idle
+                {
+                    case Pawn.AIState.Attack:
+                        //get our rotation instructions from the targets position - the enemy position
+                        Quaternion desiredRotation = Quaternion.LookRotation(targetTf.position - ePawn.turretTf.transform.position, Vector3.up);
+                        //rotate towards our target starting from our current rotation to the desired rotation 
+                        ePawn.turretTf.transform.rotation = Quaternion.RotateTowards(ePawn.turretTf.transform.rotation, desiredRotation, ePawn.rotateSpeed * Time.fixedDeltaTime);
+                        //get our distance to target
+                        distanceToTarget = GetDistanceToTarget();
+                        //get current angle to target
+                        currentAngle = GetAngleToTarget();
+
+                        //if the distance to our target is less than or equal to our fire radius
+                        if (distanceToTarget <= fireRadius)
+                        {
+                            // and if our current angle is less than or equal to our weapon's fire angle
+                            if (currentAngle <= fireAngle)
+                            {
+                                //Attack the target
+                                Attack();
+                            }
+                        }
+                        else if (distanceToTarget > fireRadius) 
+                        {
+                            ChangeState(Pawn.AIState.Chase, ePawn); //if the distance to the target is greater than fire radius than switch to chase
+                        }
+                        break;
+                    case Pawn.AIState.Chase:
+
+                        distanceToTarget = GetDistanceToTarget(); //sets the distanceToTarget
+
+                        if (!See(target))
+                        {
+                            ChangeState(Pawn.AIState.Patrol, ePawn); //changes to the patrol state of the target cant be seen
+                            return;
+                        }
+                        else if (avoidanceStage != 0)
+                        {
+                            Avoidance(); //if the avoidance stage is not zero, start avoiding
+                        }
+                        else if (distanceToTarget <= fireRadius * 0.5) 
+                        {
+                            ChangeState(Pawn.AIState.Attack, ePawn); //change state to attack if the distance to the target is less than or half the fireRadius
+                        }
+                        else
+                        {
+                            Chase(targetTf); //makes the enemy chase
+                        }
+                        break;
+                    case Pawn.AIState.Flee:
+
+                        distanceToTarget = GetDistanceToTarget(); //sets the distanceToTarget
+
+                        if (eHealth.GetPercent() >= 0.25)
+                        {
+                            Flee(); // at 25 percent health enemies flee
+                        }
+                        else if (distanceToTarget > fireRadius * 2) 
+                        {
+                            ChangeState(Pawn.AIState.Rest, ePawn); //if the distance to the target is greater than 2 times the fire radius, rest
+                        }
+                        break;
+                    case Pawn.AIState.Patrol:
+                        if (avoidanceStage != 0) //if the avoidance stage isnt zero.
+                        {
+                            //avoid obstacles
+                            Avoidance();
+                        }
+                        else if (See(target))
+                        {
+                            ChangeState(Pawn.AIState.LookAt, ePawn); //change state to look at
+                        }
+                        else
+                        {
+                            //otherwise patrol
+                            Patrol();
+                        }
+                        break;
+                    case Pawn.AIState.LookAt:
+                        if (See(target))
+                        {
+                            SetTarget(target, target.transform); //sets the new target
+                            ChangeState(Pawn.AIState.Chase, ePawn); //changes state to chase
+                        }
+                        else 
+                        {
+                            //input a timer for going into Patrol state
+                            ChangeState(Pawn.AIState.Patrol, ePawn); //go back into patrol if they dont see you
+                        }
+                        break;
+                    case Pawn.AIState.Rest:
+                        if (eHealth.GetPercent() >= 0.25) //if health is below 25 percent, rest
+                        {
+                            Rest();
+                        }
+                        else 
+                        {
+                            ChangeState(Pawn.AIState.Patrol, ePawn); //return top patrolling
+                        }
+                        break;
+                    case Pawn.AIState.Idle:
+                        Idle();
+                        break;
+                }
+            }
+        }
     }
     #endregion
 
     #region Custom Functions
 
     #region Senses
-    public bool Move(float speed)
+    public bool Move(float speed) //decides if the tank can move or not
     {
 
         if (Physics.Raycast(tf.position, tf.forward, out RaycastHit hit, speed)) //raycasts off the transform forward and checks to see if we hit the player
         {
-            
+
             if (!hit.collider.CompareTag("Player")) //if our raycast doesnt hit a player
             {
                 return false; //move returns false
             }
         }
-        return true; //if it is a player tahn it returns true
+        return true; //if it is a player than it returns true
     }
 
-    public bool Hear(GameObject _player)
-    {
-        //creates local variables for everything we need to hear
-        float _playerNoise = _player.GetComponent<PlayerTank>().noise; //stores the noise level of the player
-        float _playerNoiseRange = _player.GetComponent<PlayerTank>().noiseRange; //stores the hearing distance of the noise
-        float hDistance = epawn.hearingDistance; //makes a local variable for hearing distance
-        if (_playerNoise > 0)
-        {
-            // If our distance is greater or equal to the distance we can hear plus the distance the pawn's noise travels
-            if (Vector3.Distance(target.transform.position, tf.position) <= hDistance + _playerNoiseRange)
-            {
-                return true; //returns Hear as true
-            }
-        }
-        return false; //if anything else than it returns Hear as false
-    }
-
-    public bool See(GameObject player)
+    public bool See(GameObject player) //allows the AI to "see" the player
     {
 
         Vector3 agentToPlayerVector = player.transform.position - pawn.transform.position; //stores the distance between the enemy and the target player
 
         float angleToPlayer = Vector3.Angle(agentToPlayerVector, pawn.transform.right);//finds the angle from our enemies view by using the distance between the player and the enemies transform 
 
-        
-        if (angleToPlayer < epawn.fieldOfView) //does this if our angle to our player is lest that our field of view
+
+        if (angleToPlayer < ePawn.fieldOfView) //does this if our angle to our player is lest that our field of view
         {
-            if (Vector3.Distance(pawn.transform.position, player.transform.position) < epawn.viewRadius / 2)
+            if (Vector3.Distance(pawn.transform.position, player.transform.position) < ePawn.viewRadius / 2)
             {
                 //checks to see if we hit thje player target
-                if (Physics.Raycast(pawn.transform.position, agentToPlayerVector, out RaycastHit hit, epawn.viewRadius, playerLayer))
+                if (Physics.Raycast(pawn.transform.position, agentToPlayerVector, out RaycastHit hit, ePawn.viewRadius, playerLayer))
                 {
                     // If our raycast hits our player target
                     if (hit.collider.gameObject == player)
@@ -113,6 +219,103 @@ public class AIController : Controller
         return false;
     }
     #endregion
+
+    #region AI States
+
+    public void Avoidance() 
+    {
+        //need to find out a good way for avoidance
+    }
+
+    private void Attack()
+    {
+       //fire your weapon
+       pawn.Shoot(pawn.p_shotForce);
+    }
+
+    private void Chase(Transform targetTf)
+    {
+        movement = (targetTf.position - pawn.transform.position) * ePawn.moveSpeed;
+        motor.Move(movement);
+    }
+
+    private void Flee()
+    {
+        movement = (targetTf.position - pawn.transform.position) * ePawn.moveSpeed;
+        motor.Move(-movement);
+    }
+    private void Patrol()
+    {
+        //set target equal to current waypoint
+        target = GameManager.instance.waypoints[currentWaypoint].transform.gameObject;
+        //set target transform equal to current waypoint transform
+        targetTf = GameManager.instance.waypoints[currentWaypoint].transform;
+
+        if (motor.RotateTowards(GameManager.instance.waypoints[currentWaypoint].position, pawn.rotateSpeed))
+        {
+            //Does nothing
+        }
+        else
+        {
+            //Move forward
+            motor.Move(movement);
+        }
+        //if close to waypoint
+        Vector3 delta = GameManager.instance.waypoints[currentWaypoint].position - tf.position;
+        delta.y = 0;
+        if (delta.sqrMagnitude < withinWaypointRange)
+        {
+            //and if the waypoint index hasn't been completed
+            if (currentWaypoint < GameManager.instance.waypoints.Count - 1)
+            {
+                //move to the next patrol waypoint
+                currentWaypoint++;
+            }
+
+            else
+            {
+                //if it has reset index
+                currentWaypoint = 0;
+            }
+        }
+    }
+    private void Rest()
+    {
+        Health health = GetComponent<Health>(); 
+        health.Heal(pawn.healRate * Time.deltaTime); //heals the healRate every second
+    }
+    private void Idle()
+    {
+        Debug.Log("Idling");
+    }
+    #endregion
+
+    private float GetDistanceToTarget()
+    {
+        float distanceToTarget = Vector3.Distance(targetTf.position, pawn.transform.position); //finds the distance to the target
+        return distanceToTarget; //returns it
+    }
+
+    private float GetAngleToTarget()
+    {
+        //get our target direction by subtracting our position from our target's position
+        Vector3 targetDir = targetTf.position - pawn.transform.position;
+        //get the angle in degrees between our target direction and our forward transform
+        float angleToTarget = Vector3.Angle(targetDir, pawn.transform.forward);
+        //return angle
+        return angleToTarget;
+    }
+
+    public void ChangeState(Pawn.AIState newState, Pawn pawn) 
+    {
+        pawn.aiState = newState; //changes the state
+    }
+
+    public void SetTarget(GameObject newTarget, Transform newTargetTf)
+    {
+        target = newTarget; //sets the target equal to the new target
+        targetTf = newTargetTf; //sets the target transform equal to the new target transform
+    }
 
     #endregion
 }

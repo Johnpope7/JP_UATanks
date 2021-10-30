@@ -435,6 +435,8 @@ GameObject:
   - component: {fileID: 1007407944}
   - component: {fileID: 8256400032000525668}
   - component: {fileID: 4861028570175266728}
+  - component: {fileID: 914642678}
+  - component: {fileID: 7860133007628399030}
   m_Layer: 6
   m_Name: EnemyTest
   m_TagString: Enemy
@@ -514,7 +516,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9e7c2858581d1941b5182164c253659, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ragdoll: {fileID: 0}
+  tankParts: {fileID: 0}
   MaxHealth: 100
   currentHealth: 100
 --- !u!114 &4861028570175266728
@@ -530,8 +532,53 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: {fileID: 8256400032000525668}
+  healRate: 2
   motor: {fileID: 0}
-  points: 1
+  points: 99999999
+  moveSpeed: 0
+  rotateSpeed: 0
+  turretRotateSpeed: 0
+  turretTf: {fileID: 0}
+  tankDamage: 25
+  shootCoolDown: 0
+  shootCoolDownTime: 2
+  noiseRange: 10
+  isMakingNoise: 0
+  bulletPrefab: {fileID: 0}
+  firingZone: {fileID: 0}
+  bulletLifeSpan: 0
+  withinWaypointRange: 0
+  viewRadius: 10
+  fieldOfView: 180
+  hearingDistance: 10
+  aiState: 4
+--- !u!114 &914642678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4913655709672648093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97bc04f127b536241b92ccccd1154e0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tf: {fileID: 0}
+  pawn: {fileID: 0}
+  rb: {fileID: 0}
+--- !u!114 &7860133007628399030
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4913655709672648093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd38379564bb2214e91574dc28f7c8f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5592387151819456919
 GameObject:
   m_ObjectHideFlags: 0

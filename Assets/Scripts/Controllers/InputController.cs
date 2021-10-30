@@ -4,43 +4,49 @@ using UnityEngine;
 
 public class InputController : Controller
 {
-    [SerializeField]
-    // Start is called before the first frame update
+    public enum InputScheme { WASD, arrowKeys };
+    public InputScheme input = InputScheme.WASD;
+    protected float movement;
+    protected float turn;
     void Start()
     {
         pawn = GetComponent<Pawn>();
+        motor = GetComponent<TankMotor>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.W))
+        //switch statement for control schemes
+        switch (input)
         {
-            pawn.motor.MoveForward();
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            pawn.motor.MoveBackward();
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            pawn.motor.RotateLeft();
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            pawn.motor.RotateRight();
-        }
-        if (Input.GetKey(KeyCode.Q))
-        {
-            pawn.motor.TurretRotateLeft();
-        }
-        if (Input.GetKey(KeyCode.E))
-        {
-            pawn.motor.TurretRotateRight();
-        }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            ptank.Shoot(ptank.p_shotForce);
+            case InputScheme.WASD:
+
+                movement = Input.GetAxis("Vertical");
+                turn = Input.GetAxis("Horizontal");
+                motor.Move(new Vector3(movement, 0, 0));
+                motor.Turn(turn);
+
+                if (Input.GetKey(KeyCode.Space))
+                {
+                    pawn.Shoot(pawn.p_shotForce);
+                }
+
+                break;
+
+            case InputScheme.arrowKeys:
+
+                movement = Input.GetAxis("Vertical");
+                turn = Input.GetAxis("Horizontal");
+                motor.Move(new Vector3(movement, 0, 0));
+                motor.Turn(turn);
+
+                if (Input.GetKey(KeyCode.RightAlt))
+                {
+                    pawn.Shoot(pawn.p_shotForce);
+                }
+                break;
         }
     }
 }
+

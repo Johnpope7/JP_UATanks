@@ -6,11 +6,19 @@ public class GameManager : MonoBehaviour
 {
     //our gamemanager instance
     public static GameManager instance;
+
+    [Header("Player Score")]
     public int score; //the players score
     public Text scoreText;
-    //and this makes it a comment sammich
 
-    // Start is called before the first frame update
+    [Header("Enemy Variables")]
+    public List<GameObject> enemyList; //list all enemies in the level
+    public List<GameObject> enemyPrefabs; //lists all enemy prefabs that can spawn as enemies
+    public List<GameObject> enemySpawners; //lists all enemy spawners
+    public List<Transform> waypoints; //list of waypoints for enemy patrols
+    public int currentEnemies; //an int for storing the amount of enemies currently in the level
+    public int maxEnemies; //int that stores the maximum amount of enemies allowed per level
+    public float enemyspawnDelayTimer; //cooldown timer for enemy spawns
 
     void PlayerDeath() 
     {

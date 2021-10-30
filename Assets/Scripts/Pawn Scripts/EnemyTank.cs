@@ -5,27 +5,31 @@ using UnityEngine;
 
 public class EnemyTank : Pawn
 {
-    [Header("Movement Properties")]
-    public float moveSpeed; //movement speed of the tank
-    public float rotateSpeed; //turn speed of the tank
-    public float turretRotateSpeed; //determines the rotation speed of the turret
+    #region Variables
 
-    [Header("Tank Stats")]
-    private float shotForce = 20000f; //speed of the bullet shot
-    public float p_shotForce  //gets the speed of the bullet
+    #endregion
+
+    #region Custom Methods
+    public override void Shoot(float _shotforce) //firing method
     {
-        get { return shotForce; }
+        base.Shoot(shotForce);
     }
-    [SerializeField]
-    private float tankDamage = 25f; //damage the player tank does
-    [SerializeField]
-    private float shootCoolDown; //the cooldown time between shoots, dont change this in the inspector
-    [SerializeField]
-    private float shootCoolDownTime = 2f; //the time our cool down takes to refresh, adjust this to shoot faster or slower
+    void Start()
+    {
+        motor = GetComponent<TankMotor>();
+    }
 
-    [Header("AI Settings")]
-    public float withinWaypointRange; //close enough distance to waypoint
-    public float viewRadius = 10; //for radius of player detection
-    public float fieldOfView = 180f; //for Ai field of view
-    public float hearingDistance = 10; //distance ai can hear
+    // Update is called once per frame
+    void Update()
+    {
+        //subtract the time from the shot cool down clamped between 0 and its cool down time
+        shootCoolDown = Mathf.Clamp(shootCoolDown - Time.deltaTime, 0, shootCoolDownTime);
+    }
+
+    //function for getting the cooldown because the method I used in my declarations wasn't working for cool down
+    public float GetCoolDown()
+    {
+        return shootCoolDown;
+    }
+    #endregion
 }
