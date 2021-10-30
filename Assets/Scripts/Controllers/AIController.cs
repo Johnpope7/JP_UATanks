@@ -60,7 +60,7 @@ public class AIController : Controller
             motor = enemy.GetComponent<TankMotor>(); //gets the TankMotor and sets it to motor
             eHealth = enemy.GetComponent<Health>(); //gets the health script of the enemy
 
-            if (enemyType == EnemyType.Blinky)
+            if (enemyType == EnemyType.Test)
             {
                 switch (ePawn.aiState) //Chase, Attack, Flee, Rest, Patrol, Idle
                 {
