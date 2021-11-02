@@ -435,6 +435,7 @@ GameObject:
   - component: {fileID: 288483089297264863}
   - component: {fileID: 3074440537346092208}
   - component: {fileID: 429358412835387463}
+  - component: {fileID: 1895626921}
   m_Layer: 3
   m_Name: Tank
   m_TagString: Player
@@ -502,7 +503,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97bc04f127b536241b92ccccd1154e0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turretTf: {fileID: 409401110439938547}
+  tf: {fileID: 0}
+  pawn: {fileID: 0}
+  rb: {fileID: 0}
 --- !u!114 &3074440537346092208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -516,14 +519,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: {fileID: 0}
+  healRate: 2
   motor: {fileID: 288483089297264863}
-  moveSpeed: 10
-  rotateSpeed: 30
+  points: 0
+  moveSpeed: 150
+  rotateSpeed: 250
   turretRotateSpeed: 75
+  turretTf: {fileID: 0}
   tankDamage: 25
+  shootCoolDown: 0
+  shootCoolDownTime: 2
+  noiseRange: 10
+  isMakingNoise: 0
   bulletPrefab: {fileID: 1144187341207838, guid: d3cda471202d69248bce52982e462e0b, type: 3}
   firingZone: {fileID: 9044039701618893532}
   bulletLifeSpan: 0.5
+  withinWaypointRange: 0
+  viewRadius: 10
+  fieldOfView: 180
+  hearingDistance: 10
+  aiState: 4
 --- !u!114 &429358412835387463
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -538,6 +553,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pawn: {fileID: 3074440537346092208}
   ptank: {fileID: 3074440537346092208}
+  motor: {fileID: 0}
+  input: 0
+--- !u!114 &1895626921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4913655709672648093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9e7c2858581d1941b5182164c253659, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tankParts: {fileID: 0}
+  MaxHealth: 100
+  currentHealth: 100
 --- !u!1 &5592387151819456919
 GameObject:
   m_ObjectHideFlags: 0

@@ -25,19 +25,17 @@ public class TankMotor : MonoBehaviour
     }
 
     //function for tank movement
-    public void Move(Vector3 movement)
+    public void Move()
     {
-        rb.velocity = new Vector3(movement.x * Time.fixedDeltaTime, 0, movement.z * Time.fixedDeltaTime);
-    }
+        var forwardInput = Input.GetAxis("Vertical");
+        var rotationInput = Input.GetAxis("Horizontal");
+        //moves the tank forward and backwards
+        Vector3 desiredPosition = transform.position + (transform.forward * forwardInput * pawn.moveSpeed * Time.deltaTime);
+        rb.MovePosition(desiredPosition);
 
-
-    //tank turning functions
-    public void Turn(float speed)
-    {
-        //create a vector 3 set equal to y1 multiplied by speed and adjust to seconds
-        Vector3 rotateVector = Vector3.up * speed * Time.deltaTime;
-        //rotate our tank in local space by this value
-        tf.Rotate(rotateVector, Space.Self);
+        //Rotates the tank
+        Quaternion desiredRotation = transform.rotation * Quaternion.Euler(Vector3.up * (pawn.rotateSpeed * rotationInput * Time.deltaTime));
+        rb.MoveRotation(desiredRotation);
     }
 
     //RotateTowards (Target, Speed) - rotate towards the target (if possible).

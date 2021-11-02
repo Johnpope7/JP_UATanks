@@ -236,13 +236,13 @@ public class AIController : Controller
     private void Chase(Transform targetTf)
     {
         movement = (targetTf.position - pawn.transform.position) * ePawn.moveSpeed;
-        motor.Move(movement);
+        motor.Move();
     }
 
     private void Flee()
     {
         movement = (targetTf.position - pawn.transform.position) * ePawn.moveSpeed;
-        motor.Move(-movement);
+        motor.Move();
     }
     private void Patrol()
     {
@@ -258,7 +258,7 @@ public class AIController : Controller
         else
         {
             //Move forward
-            motor.Move(movement);
+            motor.Move();
         }
         //if close to waypoint
         Vector3 delta = GameManager.instance.waypoints[currentWaypoint].position - tf.position;

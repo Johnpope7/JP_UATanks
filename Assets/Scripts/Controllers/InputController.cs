@@ -21,12 +21,22 @@ public class InputController : Controller
         switch (input)
         {
             case InputScheme.WASD:
-
-                movement = Input.GetAxis("Vertical");
-                turn = Input.GetAxis("Horizontal");
-                motor.Move(new Vector3(movement, 0, 0));
-                motor.Turn(turn);
-
+                if (Input.GetKey(KeyCode.W))
+                {
+                    motor.Move();
+                }
+                if (Input.GetKey(KeyCode.S))
+                {
+                    motor.Move();
+                }
+                if (Input.GetKey(KeyCode.A))
+                {
+                    motor.Move();
+                }
+                if (Input.GetKey(KeyCode.D))
+                {
+                    motor.Move();
+                }
                 if (Input.GetKey(KeyCode.Space))
                 {
                     pawn.Shoot(pawn.p_shotForce);
@@ -36,11 +46,22 @@ public class InputController : Controller
 
             case InputScheme.arrowKeys:
 
-                movement = Input.GetAxis("Vertical");
-                turn = Input.GetAxis("Horizontal");
-                motor.Move(new Vector3(movement, 0, 0));
-                motor.Turn(turn);
-
+                if (Input.GetKey(KeyCode.UpArrow))
+                {
+                    motor.Move();
+                }
+                if (Input.GetKey(KeyCode.DownArrow))
+                {
+                    motor.Move();
+                }
+                if (Input.GetKey(KeyCode.LeftArrow))
+                {
+                    motor.Move();
+                }
+                if (Input.GetKey(KeyCode.RightArrow))
+                {
+                    motor.Move();
+                }
                 if (Input.GetKey(KeyCode.RightAlt))
                 {
                     pawn.Shoot(pawn.p_shotForce);
