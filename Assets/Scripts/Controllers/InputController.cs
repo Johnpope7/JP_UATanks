@@ -10,7 +10,7 @@ public class InputController : Controller
     protected float turn;
     void Start()
     {
-        pawn = GetComponent<Pawn>();
+        ePawn = GetComponent<Pawn>();
         motor = GetComponent<TankMotor>();
     }
 
@@ -39,7 +39,7 @@ public class InputController : Controller
                 }
                 if (Input.GetKey(KeyCode.Space))
                 {
-                    pawn.Shoot(pawn.p_shotForce);
+                    ePawn.Shoot(ePawn.p_shotForce);
                 }
 
                 break;
@@ -64,7 +64,7 @@ public class InputController : Controller
                 }
                 if (Input.GetKey(KeyCode.RightAlt))
                 {
-                    pawn.Shoot(pawn.p_shotForce);
+                    ePawn.Shoot(ePawn.p_shotForce);
                 }
                 break;
         }

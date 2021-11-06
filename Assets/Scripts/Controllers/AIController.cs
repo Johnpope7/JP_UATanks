@@ -9,7 +9,6 @@ public class AIController : Controller
     [Header("AI Controller Components")]
     public GameObject target; //stores the AI's target
     public Transform targetTf; //stores the transform of the AI's target
-    public EnemyTank ePawn; //stores the pawn of the EnemyTank
     public Health eHealth; //stores the Health script of the enemy
     protected Transform tf; //stores the transform of the AI pawn
     public LayerMask playerLayer; //allows me to access the player layer;
@@ -191,17 +190,17 @@ public class AIController : Controller
     public bool See(GameObject player) //allows the AI to "see" the player
     {
 
-        Vector3 agentToPlayerVector = player.transform.position - pawn.transform.position; //stores the distance between the enemy and the target player
+        Vector3 agentToPlayerVector = player.transform.position - ePawn.transform.position; //stores the distance between the enemy and the target player
 
-        float angleToPlayer = Vector3.Angle(agentToPlayerVector, pawn.transform.right);//finds the angle from our enemies view by using the distance between the player and the enemies transform 
+        float angleToPlayer = Vector3.Angle(agentToPlayerVector, ePawn.transform.right);//finds the angle from our enemies view by using the distance between the player and the enemies transform 
 
 
         if (angleToPlayer < ePawn.fieldOfView) //does this if our angle to our player is lest that our field of view
         {
-            if (Vector3.Distance(pawn.transform.position, player.transform.position) < ePawn.viewRadius / 2)
+            if (Vector3.Distance(ePawn.transform.position, player.transform.position) < ePawn.viewRadius / 2)
             {
                 //checks to see if we hit thje player target
-                if (Physics.Raycast(pawn.transform.position, agentToPlayerVector, out RaycastHit hit, ePawn.viewRadius, playerLayer))
+                if (Physics.Raycast(ePawn.transform.position, agentToPlayerVector, out RaycastHit hit, ePawn.viewRadius, playerLayer))
                 {
                     // If our raycast hits our player target
                     if (hit.collider.gameObject == player)
@@ -230,18 +229,18 @@ public class AIController : Controller
     private void Attack()
     {
        //fire your weapon
-       pawn.Shoot(pawn.p_shotForce);
+       base.ePawn.Shoot(base.ePawn.p_shotForce);
     }
 
     private void Chase(Transform targetTf)
     {
-        movement = (targetTf.position - pawn.transform.position) * ePawn.moveSpeed;
+        movement = (targetTf.position - ePawn.transform.position) * ePawn.moveSpeed;
         motor.Move();
     }
 
     private void Flee()
     {
-        movement = (targetTf.position - pawn.transform.position) * ePawn.moveSpeed;
+        movement = (targetTf.position - ePawn.transform.position) * ePawn.moveSpeed;
         motor.Move();
     }
     private void Patrol()
@@ -251,7 +250,7 @@ public class AIController : Controller
         //set target transform equal to current waypoint transform
         targetTf = GameManager.instance.waypoints[currentWaypoint].transform;
 
-        if (motor.RotateTowards(GameManager.instance.waypoints[currentWaypoint].position, pawn.rotateSpeed))
+        if (motor.RotateTowards(GameManager.instance.waypoints[currentWaypoint].position, base.ePawn.rotateSpeed))
         {
             //Does nothing
         }
@@ -282,7 +281,7 @@ public class AIController : Controller
     private void Rest()
     {
         Health health = GetComponent<Health>(); 
-        health.Heal(pawn.healRate * Time.deltaTime); //heals the healRate every second
+        health.Heal(base.ePawn.healRate * Time.deltaTime); //heals the healRate every second
     }
     private void Idle()
     {
@@ -292,16 +291,16 @@ public class AIController : Controller
 
     private float GetDistanceToTarget()
     {
-        float distanceToTarget = Vector3.Distance(targetTf.position, pawn.transform.position); //finds the distance to the target
+        float distanceToTarget = Vector3.Distance(targetTf.position, base.ePawn.transform.position); //finds the distance to the target
         return distanceToTarget; //returns it
     }
 
     private float GetAngleToTarget()
     {
         //get our target direction by subtracting our position from our target's position
-        Vector3 targetDir = targetTf.position - pawn.transform.position;
+        Vector3 targetDir = targetTf.position - base.ePawn.transform.position;
         //get the angle in degrees between our target direction and our forward transform
-        float angleToTarget = Vector3.Angle(targetDir, pawn.transform.forward);
+        float angleToTarget = Vector3.Angle(targetDir, base.ePawn.transform.forward);
         //return angle
         return angleToTarget;
     }

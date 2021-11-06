@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Controller : MonoBehaviour
 {
-    public Pawn pawn;
+    public Pawn ePawn;
     public PlayerTank ptank;
     public TankMotor motor;
 }
