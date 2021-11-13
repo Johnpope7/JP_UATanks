@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     public List<GameObject> enemyPrefabs; //lists all enemy prefabs that can spawn as enemies
     public List<GameObject> enemySpawners; //lists all enemy spawners
     public List<Transform> waypoints; //list of waypoints for enemy patrols
+    public GameObject playertarget; //stores the game object of the player
     public int currentEnemies; //an int for storing the amount of enemies currently in the level
     public int maxEnemies; //int that stores the maximum amount of enemies allowed per level
     public float enemyspawnDelayTimer; //cooldown timer for enemy spawns
@@ -38,7 +39,7 @@ public class GameManager : MonoBehaviour
         }
         //set the initial text in the score ui to say 0
         scoreText.text = "Score: 0" + score;
-        //actually set score to zero afterwards cause Im super smart
+        //actually set score to zero
         score = 0;
     }
 

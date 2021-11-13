@@ -37,6 +37,14 @@ public class InputController : Controller
                 {
                     motor.Move();
                 }
+                if (Input.GetKey(KeyCode.E))
+                {
+                    motor.TurretRotateRight();
+                }
+                if (Input.GetKey(KeyCode.Q))
+                {
+                    motor.TurretRotateLeft();
+                }
                 if (Input.GetKey(KeyCode.Space))
                 {
                     ePawn.Shoot(ePawn.p_shotForce);
@@ -61,6 +69,14 @@ public class InputController : Controller
                 if (Input.GetKey(KeyCode.RightArrow))
                 {
                     motor.Move();
+                }
+                if (Input.GetKey(KeyCode.Keypad1))
+                {
+                    motor.TurretRotateRight();
+                }
+                if (Input.GetKey(KeyCode.RightShift))
+                {
+                    motor.TurretRotateLeft();
                 }
                 if (Input.GetKey(KeyCode.RightAlt))
                 {

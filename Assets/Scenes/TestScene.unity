@@ -2830,6 +2830,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4861028570175266728, guid: aca64f0a54eed2547867f590ea4593cb, type: 3}
+      propertyPath: bulletPrefab
+      value: 
+      objectReference: {fileID: 377528412}
     - target: {fileID: 4913655709672648093, guid: aca64f0a54eed2547867f590ea4593cb, type: 3}
       propertyPath: m_Name
       value: EnemyTest
@@ -2948,6 +2952,11 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 126
   m_CollisionDetection: 0
+--- !u!1 &377528412 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1144187341207838, guid: d3cda471202d69248bce52982e462e0b, type: 3}
+  m_PrefabInstance: {fileID: 678248580}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &381932132
 GameObject:
   m_ObjectHideFlags: 0
@@ -5077,6 +5086,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player Tank
       objectReference: {fileID: 0}
+    - target: {fileID: 4913655709672648093, guid: 5314bc6dd16ebf44c816de5a3adbbb27, type: 3}
+      propertyPath: m_TagString
+      value: player
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5314bc6dd16ebf44c816de5a3adbbb27, type: 3}
 --- !u!1 &641878789
@@ -6854,16 +6867,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e33f917b491bef4682104987f7f418c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pawn: {fileID: 0}
+  ePawn: {fileID: 1284555081}
   ptank: {fileID: 0}
   motor: {fileID: 0}
-  target: {fileID: 1895626920}
-  targetTf: {fileID: 1007407941}
-  ePawn: {fileID: 1284555081}
+  target: {fileID: 0}
+  targetTf: {fileID: 0}
   eHealth: {fileID: 0}
   playerLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   enemyType: 4
   timer: 3
   avoidanceStage: 0
@@ -13783,7 +13795,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1997660632}
-  m_LocalRotation: {x: 0.25482658, y: -0.000000037204465, z: 0.00000000980436, w: 0.9669868}
+  m_LocalRotation: {x: 0.25482658, y: -0.00000003720446, z: 0.000000009804359, w: 0.9669868}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -15083,6 +15095,10 @@ PrefabInstance:
       propertyPath: scoreText
       value: 
       objectReference: {fileID: 1521146881915901890}
+    - target: {fileID: 7345037330904031424, guid: 0a2b09c6eeafaf04d8c9173936b6d35e, type: 3}
+      propertyPath: playertarget
+      value: 
+      objectReference: {fileID: 1895626920}
     - target: {fileID: 7345037330904031425, guid: 0a2b09c6eeafaf04d8c9173936b6d35e, type: 3}
       propertyPath: m_Name
       value: GameManager

@@ -538,14 +538,14 @@ MonoBehaviour:
   moveSpeed: 0
   rotateSpeed: 0
   turretRotateSpeed: 0
-  turretTf: {fileID: 0}
+  turretTf: {fileID: 409401110439938547}
   tankDamage: 25
   shootCoolDown: 0
   shootCoolDownTime: 2
   noiseRange: 10
   isMakingNoise: 0
   bulletPrefab: {fileID: 0}
-  firingZone: {fileID: 0}
+  firingZone: {fileID: 9044039701618893532}
   bulletLifeSpan: 0
   withinWaypointRange: 0
   viewRadius: 10

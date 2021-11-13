@@ -58,7 +58,7 @@ public class TankMotor : MonoBehaviour
     }
     public void TurretRotateLeft()
     {
-        pawn.turretTf.transform.Rotate(0, pawn.turretRotateSpeed * Time.deltaTime, 0);
+        pawn.turretTf.transform.Rotate(0, pawn.turretRotateSpeed * -1 * Time.deltaTime, 0);
     }
 
     public void TurretRotateRight()

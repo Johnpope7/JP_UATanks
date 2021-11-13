@@ -525,7 +525,7 @@ MonoBehaviour:
   moveSpeed: 150
   rotateSpeed: 250
   turretRotateSpeed: 75
-  turretTf: {fileID: 0}
+  turretTf: {fileID: 409401110439938547}
   tankDamage: 25
   shootCoolDown: 0
   shootCoolDownTime: 2
@@ -551,7 +551,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e461b7a6dc1e6e043b0d34bae8f6a370, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pawn: {fileID: 3074440537346092208}
+  ePawn: {fileID: 0}
   ptank: {fileID: 3074440537346092208}
   motor: {fileID: 0}
   input: 0

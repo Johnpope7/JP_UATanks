@@ -45,3 +45,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   score: 0
   scoreText: {fileID: 0}
+  enemyList: []
+  enemyPrefabs: []
+  enemySpawners: []
+  waypoints: []
+  playertarget: {fileID: 0}
+  currentEnemies: 0
+  maxEnemies: 0
+  enemyspawnDelayTimer: 0

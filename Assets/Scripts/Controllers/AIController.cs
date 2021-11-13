@@ -12,6 +12,8 @@ public class AIController : Controller
     public Health eHealth; //stores the Health script of the enemy
     protected Transform tf; //stores the transform of the AI pawn
     public LayerMask playerLayer; //allows me to access the player layer;
+    GameObject newTarget; //stores the object of the new target
+    Transform newTargetTf; //stores the transform of the new target
 
     [Header("Enemy Type"), SerializeField]
     protected EnemyType enemyType; //the type of enemy the AI controller is interfacing with (Melee or Ranged)
@@ -52,7 +54,7 @@ public class AIController : Controller
     void Update()
     {
 
-        foreach (var enemy in GameManager.instance.enemyList)
+        foreach (GameObject enemy in GameManager.instance.enemyList)
         {
             tf = enemy.GetComponent<Transform>(); //sets the transform of the AI pawn
             ePawn = enemy.GetComponent<EnemyTank>(); //gets the pawn of the AI pawn
@@ -124,6 +126,12 @@ public class AIController : Controller
                         }
                         break;
                     case Pawn.AIState.Patrol:
+                        //set target equal to current waypoint
+                        newTarget = GameManager.instance.waypoints[currentWaypoint].transform.gameObject;
+                        //set target transform equal to current waypoint transform
+                        newTargetTf = GameManager.instance.waypoints[currentWaypoint].transform;
+                        SetTarget(newTarget, newTargetTf);
+
                         if (avoidanceStage != 0) //if the avoidance stage isnt zero.
                         {
                             //avoid obstacles
@@ -205,6 +213,9 @@ public class AIController : Controller
                     // If our raycast hits our player target
                     if (hit.collider.gameObject == player)
                     {
+                        newTarget = GameManager.instance.playertarget;
+                        newTargetTf = GameManager.instance.playertarget.transform;
+                        SetTarget(newTarget, newTargetTf);
                         // return true 
                         return true;
                     }
@@ -246,13 +257,15 @@ public class AIController : Controller
     private void Patrol()
     {
         //set target equal to current waypoint
-        target = GameManager.instance.waypoints[currentWaypoint].transform.gameObject;
+        newTarget = GameManager.instance.waypoints[currentWaypoint].transform.gameObject;
         //set target transform equal to current waypoint transform
-        targetTf = GameManager.instance.waypoints[currentWaypoint].transform;
+        newTargetTf = GameManager.instance.waypoints[currentWaypoint].transform;
+        SetTarget(newTarget, newTargetTf);
 
         if (motor.RotateTowards(GameManager.instance.waypoints[currentWaypoint].position, base.ePawn.rotateSpeed))
         {
             //Does nothing
+            Debug.Log("Target is ", target);
         }
         else
         {

@@ -7,11 +7,12 @@ TagManager:
   - firingZone
   - Enemy
   - Bullet
+  - player
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 'Player '
+  - 'player '
   - Water
   - UI
   - Enemy
