@@ -256,11 +256,6 @@ public class AIController : Controller
     }
     private void Patrol()
     {
-        //set target equal to current waypoint
-        newTarget = GameManager.instance.waypoints[currentWaypoint].transform.gameObject;
-        //set target transform equal to current waypoint transform
-        newTargetTf = GameManager.instance.waypoints[currentWaypoint].transform;
-        SetTarget(newTarget, newTargetTf);
 
         if (motor.RotateTowards(GameManager.instance.waypoints[currentWaypoint].position, base.ePawn.rotateSpeed))
         {
