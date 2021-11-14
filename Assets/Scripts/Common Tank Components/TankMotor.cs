@@ -25,10 +25,8 @@ public class TankMotor : MonoBehaviour
     }
 
     //function for tank movement
-    public void Move()
+    public void Move(float forwardInput, float rotationInput)
     {
-        var forwardInput = Input.GetAxis("Vertical");
-        var rotationInput = Input.GetAxis("Horizontal");
         //moves the tank forward and backwards
         Vector3 desiredPosition = transform.position + (transform.forward * forwardInput * pawn.moveSpeed * Time.deltaTime);
         rb.MovePosition(desiredPosition);

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 
 public class AIController : Controller
@@ -37,6 +38,10 @@ public class AIController : Controller
     private float currentAngle; // stores the current angle of the tank cannon
     private float fireAngle; //stores the firing angle of the cannon
     private float distanceToTarget; //stores the distance to the target
+    private float angleModifier = 1; //changes the range of the Wander radius
+    private bool isWandering = false; //stores if the AI is wandering or not
+    private float wanderingSpeed = 10; //speed of wander
+    Vector3? direction = null; //random direction for wandering
     #endregion
 
     #region Builtin functions
@@ -126,26 +131,16 @@ public class AIController : Controller
                         }
                         break;
                     case Pawn.AIState.Patrol:
-                        //set target equal to current waypoint
-                        newTarget = GameManager.instance.waypoints[currentWaypoint].transform.gameObject;
-                        //set target transform equal to current waypoint transform
-                        newTargetTf = GameManager.instance.waypoints[currentWaypoint].transform;
-                        SetTarget(newTarget, newTargetTf);
+                        if (isWandering) 
+                        {
+                            if (direction.HasValue) 
+                            {
+                                //motor.Move(direction.Value.normalized * wanderingSpeed); //They passed in this in the video 
+                            }
+                        }
+                        isWandering = true;
+                        //StartCoroutine(Wander());
 
-                        if (avoidanceStage != 0) //if the avoidance stage isnt zero.
-                        {
-                            //avoid obstacles
-                            Avoidance();
-                        }
-                        else if (See(target))
-                        {
-                            ChangeState(Pawn.AIState.LookAt, ePawn); //change state to look at
-                        }
-                        else
-                        {
-                            //otherwise patrol
-                            Patrol();
-                        }
                         break;
                     case Pawn.AIState.LookAt:
                         if (See(target))
@@ -181,7 +176,7 @@ public class AIController : Controller
     #region Custom Functions
 
     #region Senses
-    public bool Move(float speed) //decides if the tank can move or not
+    public bool CanMove(float speed) //decides if the tank can move or not
     {
 
         if (Physics.Raycast(tf.position, tf.forward, out RaycastHit hit, speed)) //raycasts off the transform forward and checks to see if we hit the player
@@ -256,6 +251,11 @@ public class AIController : Controller
     }
     private void Patrol()
     {
+        //set target equal to current waypoint
+        newTarget = GameManager.instance.waypoints[currentWaypoint].transform.gameObject;
+        //set target transform equal to current waypoint transform
+        newTargetTf = GameManager.instance.waypoints[currentWaypoint].transform;
+        SetTarget(newTarget, newTargetTf);
 
         if (motor.RotateTowards(GameManager.instance.waypoints[currentWaypoint].position, base.ePawn.rotateSpeed))
         {
@@ -265,7 +265,7 @@ public class AIController : Controller
         else
         {
             //Move forward
-            motor.Move();
+           motor.Move();
         }
         //if close to waypoint
         Vector3 delta = GameManager.instance.waypoints[currentWaypoint].position - tf.position;
@@ -324,5 +324,31 @@ public class AIController : Controller
         targetTf = newTargetTf; //sets the target transform equal to the new target transform
     }
 
+    IEnumerator Wander() 
+    {
+        float wanderOrientation = Random.Range(-30f, 30f) * angleModifier; //random number * -30 degrees and 30 degrees times the angleModifier
+        var newRotation = Quaternion.AngleAxis(wanderOrientation, Vector3.up); //determines the new rotation the enemy is facing
+        var rotationDirection = newRotation * Vector3.forward; //This calculates the new direction for the rotation
+        motor.Move(rotationDirection); //will need to fix this, as Move does not like having anything passed into it
+    }
+
     #endregion
 }
+/*
+ old patrol code
+                        if (avoidanceStage != 0) //if the avoidance stage isnt zero.
+                        {
+                            //avoid obstacles
+                            Avoidance();
+                        }
+                        else if (See(target))
+                        {
+                            ChangeState(Pawn.AIState.LookAt, ePawn); //change state to look at
+                        }
+                        else
+                        {
+                            //otherwise patrol
+                            Patrol();
+                        }
+ */
+

@@ -8,6 +8,9 @@ public class InputController : Controller
     public InputScheme input = InputScheme.WASD;
     protected float movement;
     protected float turn;
+    /*        
+         var forwardInput = Input.GetAxis("Vertical");
+        var rotationInput = Input.GetAxis("Horizontal");*/
     void Start()
     {
         ePawn = GetComponent<Pawn>();
@@ -17,25 +20,27 @@ public class InputController : Controller
     // Update is called once per frame
     void Update()
     {
+        var forwardInput = Input.GetAxis("Vertical");
+        var rotationInput = Input.GetAxis("Horizontal");
         //switch statement for control schemes
         switch (input)
         {
             case InputScheme.WASD:
                 if (Input.GetKey(KeyCode.W))
                 {
-                    motor.Move();
+                    motor.Move(forwardInput);
                 }
                 if (Input.GetKey(KeyCode.S))
                 {
-                    motor.Move();
+                    motor.Move(forwardInput);
                 }
                 if (Input.GetKey(KeyCode.A))
                 {
-                    motor.Move();
+                    motor.Rotation(rotationInput);
                 }
                 if (Input.GetKey(KeyCode.D))
                 {
-                    motor.Move();
+                    motor.Rotation(rotationInput);
                 }
                 if (Input.GetKey(KeyCode.E))
                 {
@@ -56,19 +61,19 @@ public class InputController : Controller
 
                 if (Input.GetKey(KeyCode.UpArrow))
                 {
-                    motor.Move();
+                    motor.Move(forwardInput);
                 }
                 if (Input.GetKey(KeyCode.DownArrow))
                 {
-                    motor.Move();
+                    motor.Move(forwardInput);
                 }
                 if (Input.GetKey(KeyCode.LeftArrow))
                 {
-                    motor.Move();
+                    motor.Rotation(rotationInput);
                 }
                 if (Input.GetKey(KeyCode.RightArrow))
                 {
-                    motor.Move();
+                    motor.Rotation(rotationInput);
                 }
                 if (Input.GetKey(KeyCode.Keypad1))
                 {
