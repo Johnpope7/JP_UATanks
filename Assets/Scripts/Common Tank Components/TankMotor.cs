@@ -25,12 +25,17 @@ public class TankMotor : MonoBehaviour
     }
 
     //function for tank movement
-    public void Move(float forwardInput, float rotationInput)
+    public void Move(float forwardInput)
     {
         //moves the tank forward and backwards
         Vector3 desiredPosition = transform.position + (transform.forward * forwardInput * pawn.moveSpeed * Time.deltaTime);
         rb.MovePosition(desiredPosition);
 
+
+    }
+
+    public void Rotation(float rotationInput)
+    {
         //Rotates the tank
         Quaternion desiredRotation = transform.rotation * Quaternion.Euler(Vector3.up * (pawn.rotateSpeed * rotationInput * Time.deltaTime));
         rb.MoveRotation(desiredRotation);

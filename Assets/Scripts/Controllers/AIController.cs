@@ -23,7 +23,12 @@ public class AIController : Controller
     protected float timer = 3f; //timer for the melee state change coroutine
 
     [Header("Navigation Variables")]
-    private Vector3 movement; //stores the movement of the enemy
+    Vector3 movementVec; //stores the vector3 of the movement
+    Vector3 randomVec; //stores the random vector3 generated for wandering
+    Quaternion rotationQuat; //stores the quaternion of the rotation
+    Quaternion randomQuat; //stores the randomly generated quaternion
+    private float movement; //stores the movement the enemy will use
+    private float rotation; //stores the rotation the enemy will use
     public int avoidanceStage = 0;
     public float avoidanceTime = 2.0f;
     private float exitTime = 0.5f; //variable that stores Move exit times
@@ -131,16 +136,20 @@ public class AIController : Controller
                         }
                         break;
                     case Pawn.AIState.Patrol:
-                        if (isWandering) 
+                        if (avoidanceStage != 0) //if the avoidance stage isnt zero.
                         {
-                            if (direction.HasValue) 
-                            {
-                                //motor.Move(direction.Value.normalized * wanderingSpeed); //They passed in this in the video 
-                            }
+                            //avoid obstacles
+                            Avoidance();
                         }
-                        isWandering = true;
-                        //StartCoroutine(Wander());
-
+                        else if (See(target))
+                        {
+                            ChangeState(Pawn.AIState.LookAt, ePawn); //change state to look at
+                        }
+                        else
+                        {
+                            //otherwise patrol
+                            Patrol();
+                        }
                         break;
                     case Pawn.AIState.LookAt:
                         if (See(target))
@@ -240,14 +249,17 @@ public class AIController : Controller
 
     private void Chase(Transform targetTf)
     {
-        movement = (targetTf.position - ePawn.transform.position) * ePawn.moveSpeed;
-        motor.Move();
+        GetMoveRotateFloats();
+        motor.Rotation(rotation);
+        motor.Move(movement);
+        
     }
 
     private void Flee()
     {
-        movement = (targetTf.position - ePawn.transform.position) * ePawn.moveSpeed;
-        motor.Move();
+        GetMoveRotateFloats();
+        motor.Rotation(-rotation);
+        motor.Move(-movement);
     }
     private void Patrol()
     {
@@ -265,7 +277,9 @@ public class AIController : Controller
         else
         {
             //Move forward
-           motor.Move();
+            GetMoveRotateFloats();
+            motor.Rotation(rotation);
+            motor.Move(movement);
         }
         //if close to waypoint
         Vector3 delta = GameManager.instance.waypoints[currentWaypoint].position - tf.position;
@@ -291,6 +305,7 @@ public class AIController : Controller
         Health health = GetComponent<Health>(); 
         health.Heal(base.ePawn.healRate * Time.deltaTime); //heals the healRate every second
     }
+
     private void Idle()
     {
         Debug.Log("Idling");
@@ -324,31 +339,100 @@ public class AIController : Controller
         targetTf = newTargetTf; //sets the target transform equal to the new target transform
     }
 
-    IEnumerator Wander() 
+    public void GetMoveRotateFloats() 
     {
-        float wanderOrientation = Random.Range(-30f, 30f) * angleModifier; //random number * -30 degrees and 30 degrees times the angleModifier
-        var newRotation = Quaternion.AngleAxis(wanderOrientation, Vector3.up); //determines the new rotation the enemy is facing
-        var rotationDirection = newRotation * Vector3.forward; //This calculates the new direction for the rotation
-        motor.Move(rotationDirection); //will need to fix this, as Move does not like having anything passed into it
+        movementVec = (targetTf.position - ePawn.transform.position) * ePawn.moveSpeed;
+        movement = movementVec.z;
+        rotationQuat = Quaternion.LookRotation(targetTf.position - ePawn.transform.position, Vector3.up);
+        rotation = rotationQuat.y;
+    }
+
+
+    IEnumerator Wander()
+    {
+        RotateAgent();
+        yield return new WaitForSeconds(2);
+        StartCoroutine(LookAround());
+    }
+
+    private void RotateAgent()
+    {
+        float rotateOrientation = Random.Range(-30f, 30f) * angleModifier; //random number * -30 degrees and 30 degrees times the angleModifier
+        randomQuat = Quaternion.AngleAxis(rotateOrientation, Vector3.up); //determines the new rotation the enemy is facing
+        rotation = randomQuat.y;
+    }
+
+    private void MoveAgent()
+    {
+        //TODO; Make a random Vector3 Generator that is focused around the enemy
+
+        //float moveOrientation = Random.Range(-30f, 30f) * angleModifier; //random number * -30 degrees and 30 degrees times the angleModifier
+        //randomVec = new Vector3 (moveOrientation, Vector3.forward); //determines the new rotation the enemy is facing
+        //rotation = randomQuat.y;
+    }
+
+    IEnumerator LookAround() 
+    {
+        direction = null;
+        motor.Move(0f);
+        RotateAgent();
+        yield return new WaitForSeconds(3);
+        isWandering = false;
     }
 
     #endregion
 }
 /*
- old patrol code
-                        if (avoidanceStage != 0) //if the avoidance stage isnt zero.
+ Wander Logic
+                        if (isWandering) 
                         {
-                            //avoid obstacles
-                            Avoidance();
+                            if (direction.HasValue) 
+                            {
+                                GetMoveRotateFloats();
+                                motor.Rotation(rotation);
+                                motor.Move(movement);
+                            }
                         }
-                        else if (See(target))
-                        {
-                            ChangeState(Pawn.AIState.LookAt, ePawn); //change state to look at
-                        }
-                        else
-                        {
-                            //otherwise patrol
-                            Patrol();
-                        }
+                        isWandering = true;
+                        StartCoroutine(Wander());
+
+Old Patrol Stuff
+
+       //set target equal to current waypoint
+        newTarget = GameManager.instance.waypoints[currentWaypoint].transform.gameObject;
+        //set target transform equal to current waypoint transform
+        newTargetTf = GameManager.instance.waypoints[currentWaypoint].transform;
+        SetTarget(newTarget, newTargetTf);
+
+        if (motor.RotateTowards(GameManager.instance.waypoints[currentWaypoint].position, base.ePawn.rotateSpeed))
+        {
+            //Does nothing
+            Debug.Log("Target is ", target);
+        }
+        else
+        {
+            //Move forward
+            GetMoveRotateFloats();
+            motor.Rotation(rotation);
+            motor.Move(movement);
+        }
+        //if close to waypoint
+        Vector3 delta = GameManager.instance.waypoints[currentWaypoint].position - tf.position;
+        delta.y = 0;
+        if (delta.sqrMagnitude < withinWaypointRange)
+        {
+            //and if the waypoint index hasn't been completed
+            if (currentWaypoint < GameManager.instance.waypoints.Count - 1)
+            {
+                //move to the next patrol waypoint
+                currentWaypoint++;
+            }
+
+            else
+            {
+                //if it has reset index
+                currentWaypoint = 0;
+            }
+        }
  */
 
