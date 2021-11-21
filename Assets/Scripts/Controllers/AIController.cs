@@ -366,9 +366,9 @@ public class AIController : Controller
     {
         //TODO; Make a random Vector3 Generator that is focused around the enemy
 
-        //float moveOrientation = Random.Range(-30f, 30f) * angleModifier; //random number * -30 degrees and 30 degrees times the angleModifier
-        //randomVec = new Vector3 (moveOrientation, Vector3.forward); //determines the new rotation the enemy is facing
-        //rotation = randomQuat.y;
+        float moveRange = Random.Range(5f, 20f); //random number for moving forwards
+        randomVec = new Vector3 (moveRange, ePawn.transform.position.z); //determines a vector for the new movement range
+        movement = randomVec.z;
     }
 
     IEnumerator LookAround() 
